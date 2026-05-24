@@ -1,0 +1,113 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+    background: linear-gradient(to right, #1d2671, #c33764);
+}
+
+.container {
+    width: 85%;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.studentCountBox {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.studentCountBox input {
+    padding: 12px;
+    width: 250px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+}
+
+.studentCountBox button {
+    padding: 12px 20px;
+    border: none;
+    background: #00c6ff;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.studentForm {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0px 0px 10px black;
+}
+
+.studentForm h2 {
+    color: #1d2671;
+}
+
+.inputGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+input {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid gray;
+}
+
+.submitBtn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background: #1d2671;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.submitBtn:hover {
+    background: #3246c0;
+}
+
+.studentCard {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 20px;
+    box-shadow: 0px 0px 10px black;
+}
+
+.studentCard h2 {
+    color: #c33764;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+table, th, td {
+    border: 1px solid gray;
+}
+
+th {
+    background: #1d2671;
+    color: white;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
