@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {{ app_name }}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+<div class="app-shell">
+
+    <!-- ============================================= -->
+    <!-- SIDEBAR -->
+    <!-- ============================================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                ✦
+            </div>
+
+            <div>
+                <div class="brand-name">
+                    GENAI
+                </div>
+
+                <div class="brand-subtitle">
+                    DOCUMENT INTELLIGENCE
+                </div>
+            </div>
+
+        </div>
+
+
+        <nav class="navigation">
+
+            <button
+                class="nav-item active"
+                data-view="dashboard"
+            >
+                <span>◈</span>
+                Dashboard
+            </button>
+
+            <button
+                class="nav-item"
+                data-view="documents"
+            >
+                <span>▣</span>
+                Documents
+            </button>
+
+            <button
+                class="nav-item"
+                data-view="insights"
+            >
+                <span>✦</span>
+                AI Insights
+            </button>
+
+            <button
+                class="nav-item"
+                data-view="about"
+            >
+                <span>◇</span>
+                Architecture
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="aws-status">
+
+                <span
+                    class="status-dot"
+                    id="statusDot"
+                ></span>
+
+                <div>
+
+                    <strong>
+                        AWS Connection
+                    </strong>
+
+                    <small id="connectionStatus">
+                        Checking...
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="sidebar-footer">
+
+                <span>
+                    Amazon Bedrock
+                </span>
+
+                <span>
+                    •
+                </span>
+
+                <span>
+                    LangChain
+                </span>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ============================================= -->
+    <!-- MAIN -->
+    <!-- ============================================= -->
+
+    <main class="main-content">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <div class="breadcrumb">
+                    Workspace / Dashboard
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <div class="model-pill">
+
+                    <span class="pulse"></span>
+
+                    <span>
+                        <span id="modelName">
+                            Model not configured
+                        </span>
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ========================================= -->
+        <!-- DASHBOARD -->
+        <!-- ========================================= -->
+
+        <section
+            id="dashboard"
+            class="view active-view"
+        >
+
+            <div class="hero">
+
+                <div>
+
+                    <div class="eyebrow">
+                        AI-POWERED DOCUMENT ANALYSIS
+                    </div>
+
+                    <h1>
+                        Turn documents into
+                        <span>intelligence.</span>
+                    </h1>
+
+                    <p>
+                        Upload a PDF and let Amazon
+                        Bedrock analyze the document,
+                        extract the important information,
+                        and generate a structured AI summary.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- UPLOAD -->
+
+            <div
+                class="upload-card"
+                id="dropZone"
+            >
+
+                <input
+                    type="file"
+                    id="fileInput"
+                    accept=".pdf"
+                    hidden
+                >
+
+
+                <div class="upload-glow"></div>
+
+
+                <div class="upload-icon">
+                    ↑
+                </div>
+
+
+                <h2>
+                    Drop your PDF here
+                </h2>
+
+
+                <p>
+                    or click to browse your files
+                </p>
+
+
+                <span class="upload-limit">
+                    PDF • Maximum 20 MB
+                </span>
+
+
+                <button
+                    class="browse-button"
+                    id="browseButton"
+                    type="button"
+                >
+                    Choose PDF
+                </button>
+
+            </div>
+
+
+            <!-- SELECTED FILE -->
+
+            <div
+                class="selected-file hidden"
+                id="selectedFile"
+            >
+
+                <div class="file-icon">
+                    PDF
+                </div>
+
+                <div class="file-details">
+
+                    <strong id="fileName">
+                        document.pdf
+                    </strong>
+
+                    <span id="fileSize">
+                        0 MB
+                    </span>
+
+                </div>
+
+                <button
+                    class="remove-file"
+                    id="removeFile"
+                    type="button"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <!-- ACTION -->
+
+            <button
+                class="analyze-button"
+                id="analyzeButton"
+                disabled
+            >
+
+                <span>
+                    ✦
+                </span>
+
+                Analyze Document
+
+            </button>
+
+
+            <!-- STATS -->
+
+            <div
+                class="stats-grid hidden"
+                id="statsGrid"
+            >
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        PAGES
+                    </span>
+
+                    <strong id="pagesStat">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        WORDS
+                    </span>
+
+                    <strong id="wordsStat">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        FILE SIZE
+                    </span>
+
+                    <strong id="sizeStat">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        AI MODEL
+                    </span>
+
+                    <strong
+                        id="modelStat"
+                        class="model-stat"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROCESSING -->
+
+            <div
+                class="processing-card hidden"
+                id="processingCard"
+            >
+
+                <div class="loader"></div>
+
+                <div>
+
+                    <strong>
+                        Analyzing your document
+                    </strong>
+
+                    <p id="processingText">
+                        Extracting document content...
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESULT -->
+
+            <div
+                class="result-section hidden"
+                id="resultSection"
+            >
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            AI OUTPUT
+                        </span>
+
+                        <h2>
+                            Document Intelligence
+                        </h2>
+
+                    </div>
+
+
+                    <a
+                        class="download-button"
+                        id="downloadButton"
+                        href="#"
+                    >
+                        ↓ Download Summary
+                    </a>
+
+                </div>
+
+
+                <div
+                    class="summary-card"
+                    id="summaryOutput"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================= -->
+        <!-- DOCUMENTS -->
+        <!-- ========================================= -->
+
+        <section
+            id="documents"
+            class="view"
+        >
+
+            <div class="page-heading">
+
+                <span class="eyebrow">
+                    DOCUMENT CENTER
+                </span>
+
+                <h1>
+                    Documents
+                </h1>
+
+                <p>
+                    Manage documents analyzed by the
+                    application.
+                </p>
+
+            </div>
+
+
+            <div class="empty-state">
+
+                <div>
+                    ◫
+                </div>
+
+                <h2>
+                    Your documents will appear here
+                </h2>
+
+                <p>
+                    Upload your first PDF from the dashboard
+                    to start analyzing documents.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================= -->
+        <!-- INSIGHTS -->
+        <!-- ========================================= -->
+
+        <section
+            id="insights"
+            class="view"
+        >
+
+            <div class="page-heading">
+
+                <span class="eyebrow">
+                    GENERATIVE AI
+                </span>
+
+                <h1>
+                    AI Insights
+                </h1>
+
+                <p>
+                    Structured intelligence generated from
+                    your uploaded documents.
+                </p>
+
+            </div>
+
+
+            <div class="insight-grid">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        ✦
+                    </div>
+
+                    <h3>
+                        Executive Summary
+                    </h3>
+
+                    <p>
+                        Quickly understand the main purpose
+                        and message of a document.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        ◈
+                    </div>
+
+                    <h3>
+                        Key Points
+                    </h3>
+
+                    <p>
+                        Extract the most important information
+                        without manually reading every page.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        ◇
+                    </div>
+
+                    <h3>
+                        Findings
+                    </h3>
+
+                    <p>
+                        Identify significant findings and
+                        conclusions from the document.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        #
+                    </div>
+
+                    <h3>
+                        Keywords
+                    </h3>
+
+                    <p>
+                        Surface important concepts and
+                        terminology.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================= -->
+        <!-- ARCHITECTURE -->
+        <!-- ========================================= -->
+
+        <section
+            id="about"
+            class="view"
+        >
+
+            <div class="page-heading">
+
+                <span class="eyebrow">
+                    SYSTEM ARCHITECTURE
+                </span>
+
+                <h1>
+                    How it works
+                </h1>
+
+                <p>
+                    A complete GenAI workflow built using
+                    AWS and LangChain.
+                </p>
+
+            </div>
+
+
+            <div class="architecture">
+
+                <div class="architecture-step">
+
+                    <span>
+                        01
+                    </span>
+
+                    <strong>
+                        Upload
+                    </strong>
+
+                    <p>
+                        User uploads a PDF through the
+                        custom web interface.
+                    </p>
+
+                </div>
+
+
+                <div class="architecture-line"></div>
+
+
+                <div class="architecture-step">
+
+                    <span>
+                        02
+                    </span>
+
+                    <strong>
+                        Amazon S3
+                    </strong>
+
+                    <p>
+                        The original document is securely
+                        stored in S3.
+                    </p>
+
+                </div>
+
+
+                <div class="architecture-line"></div>
+
+
+                <div class="architecture-step">
+
+                    <span>
+                        03
+                    </span>
+
+                    <strong>
+                        LangChain
+                    </strong>
+
+                    <p>
+                        Prompt templates structure the
+                        document intelligence workflow.
+                    </p>
+
+                </div>
+
+
+                <div class="architecture-line"></div>
+
+
+                <div class="architecture-step">
+
+                    <span>
+                        04
+                    </span>
+
+                    <strong>
+                        Bedrock
+                    </strong>
+
+                    <p>
+                        A foundation model generates the
+                        document analysis.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div
+    class="toast hidden"
+    id="toast"
+>
+
+    <span id="toastIcon">
+        !
+    </span>
+
+    <span id="toastMessage">
+        Message
+    </span>
+
+</div>
+
+
+<script
+    src="{{ url_for('static', filename='js/app.js') }}"
+></script>
+
+</body>
+
+</html>

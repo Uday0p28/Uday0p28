@@ -1,0 +1,18 @@
+services:
+
+  nexusai:
+
+    build:
+      context: .
+
+    platform: linux/arm64
+
+    ports:
+      - "5000:5000"
+
+    env_file:
+      - .env
+
+    volumes:
+      - ./uploads:/app/uploads
+      - ./outputs:/app/outputs
